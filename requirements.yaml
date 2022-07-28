@@ -1,2 +1,4 @@
-- src: geerlingguy.nodejs
-- src: geerlingguy.haproxy
+---
+roles:
+  - src: geerlingguy.nodejs
+  - src: geerlingguy.haproxy
