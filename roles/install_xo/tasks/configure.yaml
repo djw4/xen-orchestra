@@ -1,0 +1,21 @@
+---
+- block:
+    - name: Create config directory
+      ansible.builtin.file:
+        # path: "{{ xo.user.home }}/.config/xo-server"
+        path: /etc/xo-server
+        state: directory
+      register: config_dir
+
+    - name: Update the config
+      ansible.builtin.template:
+        src: config.template.toml
+        dest: "{{ config_dir.path }}/config.toml"
+        mode: "0644"
+        backup: yes
+      # notify:
+      #   - Trim previous configs
+
+  # become: yes
+  # become_user: "{{ xo.user.name }}"
+

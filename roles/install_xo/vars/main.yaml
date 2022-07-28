@@ -1,0 +1,8 @@
+xo:
+  repo: https://github.com/vatesfr/xen-orchestra
+  branch: master
+
+  user:
+    name: xo
+    home: /usr/local/xen-orchestra
+    uid: 1100

@@ -1,0 +1,14 @@
+---
+
+- name: Create a systemd service for the application
+  ansible.builtin.template:
+    src: xo.service.template.ini
+    dest: /etc/systemd/system/xo.service
+    mode: "0644"
+
+- name: Enable the systemd service
+  ansible.builtin.systemd:
+    name: xo.service
+    state: restarted
+    enabled: yes
+    daemon_reload: yes

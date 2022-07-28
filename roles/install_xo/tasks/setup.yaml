@@ -1,0 +1,32 @@
+---
+
+- name: Create the xo user
+  ansible.builtin.user:
+    name: "{{ xo.user.name }}"
+    uid: "{{ xo.user.uid }}"
+    home: "{{ xo.user.home }}"
+    create_home: yes
+    shell: /bin/bash
+  register: xo_user
+
+# - name: Configure the xo user's $PATH
+#   lineinfile:
+#     path: "{{ xo.user.home }}/.bashrc"
+#     line: "export PATH=$PATH:{{ xo.user.home }}/src/packages"
+#     insertafter: EOF
+
+- name: Set the build_dir variable
+  ansible.builtin.set_fact:
+    build_dir: "{{ xo_user.home }}/src"
+
+# Pull the latest codebase and check if there are any updates to apply
+- name: Checkout the codebase
+  ansible.builtin.git:
+    repo: "{{ xo.repo }}"
+    version: "{{ xo.branch }}"
+    dest: "{{ build_dir }}"
+    single_branch: yes
+    update: yes
+  register: repo
+  become: yes
+  become_user: "{{ xo.user.name }}"

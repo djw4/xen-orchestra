@@ -1,0 +1,20 @@
+---
+# Steps from: https://xen-orchestra.com/docs/installation.html
+
+- name: Include pre-flight tasks
+  ansible.builtin.include_tasks:
+    file: setup.yaml
+
+- name: Include tasks for building XO from source
+  ansible.builtin.include_tasks:
+    file: build.yaml
+  when: repo.before != repo.after
+
+- name: Include tasks for configuring XO
+  ansible.builtin.include_tasks:
+    file: configure.yaml
+  # when: repo.before != repo.after
+
+- name: Include tasks for configuring the webservers
+  ansible.builtin.include_tasks:
+    file: ws.yaml
