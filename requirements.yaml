@@ -1,8 +1,0 @@
----
-roles:
-  - name: geerlingguy.nodejs
-    type: galaxy
-  - name: geerlingguy.haproxy
-    type: galaxy
-
-collections: []
