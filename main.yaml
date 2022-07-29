@@ -2,11 +2,4 @@
 - hosts: all
   gather_facts: true
   roles:
-    - name: geerlingguy.nodejs
-    - name: setup
     - name: install_xo
-    - name: geerlingguy.haproxy
-      vars:
-        haproxy_backend_servers:
-          - name: xo
-            address: 127.0.0.1:8080

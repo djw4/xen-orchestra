@@ -5,16 +5,31 @@
   ansible.builtin.include_tasks:
     file: setup.yaml
 
-- name: Include tasks for building XO from source
-  ansible.builtin.include_tasks:
-    file: build.yaml
+- block:
+    - name: Install/update nodejs
+      ansible.builtin.include_role:
+        name: geerlingguy.nodejs
+
+    - name: Include tasks for building XO from source
+      ansible.builtin.include_tasks:
+        file: build.yaml
+
+    - name: Include tasks for configuring XO
+      ansible.builtin.include_tasks:
+        file: configure.yaml
+
+    - name: Install/update haproxy
+      ansible.builtin.include_role:
+        name: geerlingguy.haproxy
+        vars:
+          haproxy_backend_servers:
+            - name: xo
+              address: 127.0.0.1:8080
+
+    - name: Include tasks for configuring the webservers
+      ansible.builtin.include_tasks:
+        file: ws.yaml
+
+  # If the source for xen-orchestra differs from the last time (eg. the commit
+  # changed) then run the installation/upgrade steps.
   when: repo.before != repo.after
-
-- name: Include tasks for configuring XO
-  ansible.builtin.include_tasks:
-    file: configure.yaml
-  # when: repo.before != repo.after
-
-- name: Include tasks for configuring the webservers
-  ansible.builtin.include_tasks:
-    file: ws.yaml
