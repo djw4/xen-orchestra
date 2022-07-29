@@ -21,10 +21,10 @@
     - name: Install/update haproxy
       ansible.builtin.include_role:
         name: geerlingguy.haproxy
-        vars:
-          haproxy_backend_servers:
-            - name: xo
-              address: 127.0.0.1:8080
+      vars:
+        haproxy_backend_servers:
+          - name: xo
+            address: 127.0.0.1:8080
 
     - name: Include tasks for configuring the webservers
       ansible.builtin.include_tasks:
