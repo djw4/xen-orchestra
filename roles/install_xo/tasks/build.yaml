@@ -2,21 +2,14 @@
 
 - block:
     - name: Install packages with yarn
-      community.general.yarn:
-        path: "{{ build_dir }}"
+      ansible.builtin.shell:
+        cmd: yarn
+        chdir: "{{ build_dir }}"
 
     - name: Build with yarn
       ansible.builtin.shell:
         cmd: yarn build
         chdir: "{{ build_dir }}"
-
-    # - name: Recursively fix ownership of a build_dir
-    #   ansible.builtin.file:
-    #     path: "{{ xo.user.home }}"
-    #     state: directory
-    #     recurse: yes
-    #     owner: "{{ xo.user.name }}"
-    #     group: "{{ xo.user.name }}"
 
   become: yes
   become_user: "{{ xo.user.name }}"

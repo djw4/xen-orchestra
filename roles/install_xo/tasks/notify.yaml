@@ -1,0 +1,8 @@
+---
+- name: Notify via Pushover
+  community.general.pushover:
+    app_token: "{{ pushover.app_token }}"
+    user_key: "{{ pushover.user_key }}"
+    title: "{{ title }}"
+    msg: "{{ msg }}"
+  delegate_to: localhost

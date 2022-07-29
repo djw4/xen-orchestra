@@ -1,5 +1,10 @@
 ---
 - hosts: all
   gather_facts: true
+  any_errors_fatal: true
+  vars_files:
+    - vault.yaml
   roles:
     - name: install_xo
+      tags:
+        - install_xo

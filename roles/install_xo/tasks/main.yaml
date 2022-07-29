@@ -6,6 +6,13 @@
     file: setup.yaml
 
 - block:
+    - name: Notify via Pushover that build is starting
+      ansible.builtin.include_tasks:
+        file: notify.yaml
+      vars:
+        title: "AWX Job: {{ tower_job_template_name }}"
+        msg: "Starting 'xen-orchestra' build using commit '{{ repo.after }}'"
+
     - name: Install/update nodejs
       ansible.builtin.include_role:
         name: geerlingguy.nodejs
@@ -29,6 +36,25 @@
     - name: Include tasks for configuring the webservers
       ansible.builtin.include_tasks:
         file: ws.yaml
+
+    - name: Notify via Pushover that build is finished
+      ansible.builtin.include_tasks:
+        file: notify.yaml
+      vars:
+        title: "AWX Job: {{ tower_job_template_name }}"
+        msg: "Finished 'xen-orchestra' build using commit '{{ repo.after }}'"
+
+  rescue:
+    - name: Notify via Pushover that build has failed
+      ansible.builtin.include_tasks:
+        file: notify.yaml
+      vars:
+        title: "AWX Job: {{ tower_job_template_name }}"
+        msg: "ERROR: Build of 'xen-orchestra' failed!"
+
+    - name: Stop the playbook
+      ansible.builtin.fail:
+        msg: Stopping the play as the build failed
 
   # If the source for xen-orchestra differs from the last time (eg. the commit
   # changed) then run the installation/upgrade steps.

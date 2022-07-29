@@ -1,7 +1,7 @@
 ---
 
 - name: "Trim previous configs"
-  shell:
+  ansible.builtin.shell:
     cmd: find .config -type f -name config.toml* # TODO
     chdir: "{{ xo.user.home }}"
   become: yes
