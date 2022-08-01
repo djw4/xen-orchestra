@@ -1,15 +1,15 @@
 ---
 
 - block:
-    - name: Install packages with yarn
-      ansible.builtin.shell:
-        cmd: yarn
-        chdir: "{{ build_dir }}"
+    - name: Remove node_modules directory
+      ansible.builtin.file:
+        path: "{{ build_dir }}/node_modules"
+        state: absent
 
     - name: Build with yarn
       ansible.builtin.shell:
-        cmd: yarn build
+        cmd: |-
+          yarn && yarn build
         chdir: "{{ build_dir }}"
-
   become: yes
   become_user: "{{ xo.user.name }}"

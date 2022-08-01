@@ -12,19 +12,15 @@
       vars:
         title: "AWX Job: {{ tower_job_template_name }}"
         msg: "Starting 'xen-orchestra' build using commit '{{ repo.after }}'"
-
     - name: Install/update nodejs
       ansible.builtin.include_role:
         name: geerlingguy.nodejs
-
     - name: Include tasks for building XO from source
       ansible.builtin.include_tasks:
         file: build.yaml
-
     - name: Include tasks for configuring XO
       ansible.builtin.include_tasks:
         file: configure.yaml
-
     - name: Install/update haproxy
       ansible.builtin.include_role:
         name: geerlingguy.haproxy
@@ -32,11 +28,9 @@
         haproxy_backend_servers:
           - name: xo
             address: 127.0.0.1:8080
-
     - name: Include tasks for configuring the webservers
       ansible.builtin.include_tasks:
         file: ws.yaml
-
     - name: Notify via Pushover that build is finished
       ansible.builtin.include_tasks:
         file: notify.yaml
@@ -51,11 +45,8 @@
       vars:
         title: "AWX Job: {{ tower_job_template_name }}"
         msg: "ERROR: Build of 'xen-orchestra' failed!"
-
     - name: Stop the playbook
       ansible.builtin.fail:
         msg: Stopping the play as the build failed
 
-  # If the source for xen-orchestra differs from the last time (eg. the commit
-  # changed) then run the installation/upgrade steps.
   when: repo.before != repo.after
