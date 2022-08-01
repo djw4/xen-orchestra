@@ -49,6 +49,4 @@
       ansible.builtin.fail:
         msg: Stopping the play as the build failed
 
-  when:
-    - repo.before != repo.after
-    - force_build
+  when: repo.before != repo.after or force_build
