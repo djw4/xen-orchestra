@@ -1,3 +1,4 @@
+---
 xo:
   repo: https://github.com/vatesfr/xen-orchestra
   branch: master
@@ -6,3 +7,5 @@ xo:
     name: xo
     home: /usr/local/xen-orchestra
     uid: 1100
+
+force_build: False
